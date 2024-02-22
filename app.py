@@ -12,39 +12,31 @@ if os.path.exists('Sourcefile.csv'):
 st.title("AutoML-001")
 st.text("Try any Dataset for a quick Data Analysis and Machine Learning overview")
 
+
 #header-nav-bar
-col1, col2, col3,col4 = st.columns(4)
 
-choice = col1.button("Upload")
-choice1 = col2.button("Profiling")
-choice2 = col3.button("ML")
-choice3 = col4.button("Download")
-
-#Intial page
-st.title("Upload Your Data for Modelling!")
-file = st.file_uploader("Upload your Dataset Here")
-if file:
-    df = pd.read_csv(file,index_col=None)
-    df.to_csv("Sourcefile.csv",index=None)
-    st.dataframe(df)
+with st.sidebar:
+    st.title('AUTOPANDAS')
+    st.text('Automl with pandas-profiling')
+    choice = st.radio("Navigation", ["Upload","Profiling","Modelling", "Download"])
 
 #Upload-button
-if choice:#=='Upload':
+if choice=='Upload':
     st.title("Upload Your Data for Modelling!")
     file = st.file_uploader("Upload your Dataset Here")
-    if file:
-        df = pd.read_csv(file,index_col=None)
-        df.to_csv("Sourcefile.csv",index=None)
+    if file: 
+        df = pd.read_csv(file, index_col=None)
+        df.to_csv('dataset.csv', index=None)
         st.dataframe(df)
 
 #Profiling-button
-if choice1:#=='Profiling':
+if choice=='Profiling':
     st.title('Automated EDA')
     profile_report = ydata_profiling.ProfileReport(df)
     st_profile_report(profile_report)
 
 #ML-Button
-if choice2: #=='ML':
+if choice=='Modelling':
     st.title('Machine Learning')
     target = st.selectbox("Select the column", df.columns)
     model_type = st.selectbox("Select the Model", ['Classification', 'Regression'])
@@ -76,7 +68,7 @@ if choice2: #=='ML':
             save_model(best_model,'best_model_reg')
 
 #Download-button
-if choice3:#=='Download':
+if choice=='Download':
     if os.path.exists("best_model_reg.pkl"):
         with open("best_model_reg.pkl",'rb') as f:
             st.download_button("Download model",f,'trained_model.pkl')
