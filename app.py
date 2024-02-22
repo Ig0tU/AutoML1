@@ -18,17 +18,25 @@ st.text("Try any Dataset for a quick Data Analysis and Machine Learning overview
 with st.sidebar:
     st.title('AUTOPANDAS')
     st.text('Automl with pandas-profiling')
-    choice = st.radio("Navigation", ["Upload","Profiling","Modelling", "Download"])
+    choice = st.radio("Navigation", ["Data","Profiling","Modelling", "Download"])
 
 #Upload-button
-if choice=='Upload':
-    st.title("Upload Your Data for Modelling!")
-    file = st.file_uploader("Upload your Dataset Here")
-    if file: 
-        df = pd.read_csv(file, index_col=None)
-        df.to_csv('dataset.csv', index=None)
-        st.dataframe(df)
 
+#if choice=='Upload':
+st.title("Upload Your Data for Modelling!")
+file = st.file_uploader("Upload your Dataset Here")
+if file: 
+    df = pd.read_csv(file, index_col=None)
+        #df.to_csv('dataset.csv', index=None)
+    
+if choice=='Data':
+    st.dataframe(df)
+#Profiling-button
+if choice=='Profiling':
+    st.dataframe(df)
+    st.title('Automated EDA')
+    profile_report = ydata_profiling.ProfileReport(df)
+    st_profile_report(profile_report)
 #Profiling-button
 if choice=='Profiling':
     st.title('Automated EDA')
