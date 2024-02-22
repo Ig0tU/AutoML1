@@ -28,9 +28,10 @@ file = st.file_uploader("Upload your Dataset Here")
 if file: 
     df = pd.read_csv(file, index_col=None)
         #df.to_csv('dataset.csv', index=None)
+    st.dataframe(df)
     
 if choice=='Data':
-    st.dataframe(df)
+    pass
 #Profiling-button
 if choice=='Profiling':
     st.dataframe(df)
