@@ -1,2 +1,3 @@
 pandas-profiling
 ydata-profiling
+streamlit_pandas_profiling
