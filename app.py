@@ -47,7 +47,7 @@ if choice=='Profiling':
 #ML-Button
 if choice=='Modelling':
     st.title('Machine Learning')
-    target = st.selectbox("Select the column", df.columns)
+    target = st.selectbox("Select the Target Column", df.columns)
     model_type = st.selectbox("Select the Model", ['Classification', 'Regression'])
     if st.button("Train Model"):
         if model_type=='Classification':
