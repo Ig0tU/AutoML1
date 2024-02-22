@@ -1,25 +1,35 @@
+#Libraries
 import streamlit as st
 import pandas as pd
 import os
-
-#profiling
 import ydata_profiling
 from streamlit_pandas_profiling import st_profile_report
 
-#ML
-
-with st.sidebar:
-    st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
-    st.title("AutoML")
-    choice = st.radio("Navigation",['Upload','Profiling','ML','Download'])
-    st.info("This is an AutoML web app")
-
+#OS check of csv file and loading
 if os.path.exists('Sourcefile.csv'):
     df=pd.read_csv('Sourcefile.csv',index_col=None)
+#Title
+st.title("AutoML-001")
+st.text("Try any Dataset for a quick Data Analysis and Machine Learning overview")
 
+#header-nav-bar
+col1, col2, col3,col4 = st.columns(4)
 
+choice = col1.button("Upload")
+choice1 = col2.button("Profiling")
+choice2 = col3.button("ML")
+choice3 = col4.button("Download")
 
-if choice=='Upload':
+#Intial page
+st.title("Upload Your Data for Modelling!")
+file = st.file_uploader("Upload your Dataset Here")
+if file:
+    df = pd.read_csv(file,index_col=None)
+    df.to_csv("Sourcefile.csv",index=None)
+    st.dataframe(df)
+
+#Upload-button
+if choice:#=='Upload':
     st.title("Upload Your Data for Modelling!")
     file = st.file_uploader("Upload your Dataset Here")
     if file:
@@ -27,13 +37,14 @@ if choice=='Upload':
         df.to_csv("Sourcefile.csv",index=None)
         st.dataframe(df)
 
-
-if choice=='Profiling':
+#Profiling-button
+if choice1:#=='Profiling':
     st.title('Automated EDA')
     profile_report = ydata_profiling.ProfileReport(df)
     st_profile_report(profile_report)
 
-if choice=='ML':
+#ML-Button
+if choice2: #=='ML':
     st.title('Machine Learning')
     target = st.selectbox("Select the column", df.columns)
     model_type = st.selectbox("Select the Model", ['Classification', 'Regression'])
@@ -64,7 +75,8 @@ if choice=='ML':
             best_model
             save_model(best_model,'best_model_reg')
 
-if choice=='Download':
+#Download-button
+if choice3:#=='Download':
     if os.path.exists("best_model_reg.pkl"):
         with open("best_model_reg.pkl",'rb') as f:
             st.download_button("Download model",f,'trained_model.pkl')
