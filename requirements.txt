@@ -1,2 +1,2 @@
-pip install pandas-profiling
-pip install ydata-profiling
+pandas-profiling
+ydata-profiling
